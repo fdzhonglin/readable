@@ -1,38 +1,51 @@
 import React, { Component } from 'react';
-import { Form, Label } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 
-const options = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-];
+class EditPost extends Component {
+  state = {
+    title: '',
+    owner: '',
+    body: '',
+  };
 
-class FormExampleSubcomponentControl extends Component {
-  state = {};
+  handleChange = (e, { value }) => {
+    this.setState({
+      [e.target.name]: value,
+    });
+  };
 
-  handleChange = (e, { value }) => this.setState({ value });
+  submit = (e) => {
+    e.preventDefault();
+    console.log(this.state);
+  };
 
   render() {
-    const { value } = this.state;
-
     return (
-      <Form>
+      <Form onSubmit={this.submit}>
         <Form.Group widths="equal">
-          <Form.Input label="First name" placeholder="First name" />
-          <Form.Input label="Last name" placeholder="Last name" />
-          <Form.Select label="Gender" options={options} placeholder="Gender" />
+          <Form.Input
+            name="title"
+            label="Title"
+            placeholder="Post title"
+            value={this.state.title}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            name="owner"
+            label="Owner"
+            placeholder="Your name"
+            value={this.state.owner}
+            onChange={this.handleChange}
+          />
+          <Form.TextArea
+            name="body"
+            label="Post Content"
+            value={this.state.body}
+            onChange={this.handleChange}
+          />
         </Form.Group>
-
-        <Form.Group inline>
-          <Label>Size</Label>
-          <Form.Radio label="Small" value="sm" checked={value === 'sm'} onChange={this.handleChange} />
-          <Form.Radio label="Medium" value="md" checked={value === 'md'} onChange={this.handleChange} />
-          <Form.Radio label="Large" value="lg" checked={value === 'lg'} onChange={this.handleChange} />
-        </Form.Group>
-
-        <Form.TextArea label="About" placeholder="Tell us more about you..." />
-        <Form.Checkbox label="I agree to the Terms and Conditions" />
 
         <Form.Button>Submit</Form.Button>
       </Form>
@@ -40,4 +53,4 @@ class FormExampleSubcomponentControl extends Component {
   }
 }
 
-export default FormExampleSubcomponentControl
+export default EditPost
