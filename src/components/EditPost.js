@@ -3,6 +3,11 @@ import { Form } from 'semantic-ui-react';
 
 import 'semantic-ui-css/semantic.min.css';
 
+const uuidv4 = require('uuid/v4');
+
+const SERVER_ROOT = 'http://localhost:5001'
+const POSTS_URL = `${SERVER_ROOT}/posts`
+
 class EditPost extends Component {
   state = {
     title: '',
@@ -18,7 +23,25 @@ class EditPost extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+
+    fetch(
+      POSTS_URL,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Johnny dev machin',
+        },
+        body: JSON.stringify({
+          ...this.state,
+          id: uuidv4(),
+          timestamp: Date.now(),
+          category: 'react',
+        }),
+      }
+    ).then((res) => {
+      console.log(res);
+    })
   };
 
   render() {
