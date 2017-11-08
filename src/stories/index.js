@@ -14,5 +14,11 @@ storiesOf('Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>);
 
+const categories = [
+  { text: 'React', value: 'react' },
+  { text: 'Redux', value: 'redux' },
+  { text: 'Udacity', value: 'udacity' },
+];
+
 storiesOf('EditPost', module)
-  .add('default', () => <EditPost />);
+  .add('default', () => <EditPost categories={categories} />);

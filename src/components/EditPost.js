@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 import 'semantic-ui-css/semantic.min.css';
 
 const uuidv4 = require('uuid/v4');
 
-const SERVER_ROOT = 'http://localhost:5001'
+const SERVER_ROOT = 'http://localhost:3001'
 const POSTS_URL = `${SERVER_ROOT}/posts`
 
 class EditPost extends Component {
@@ -13,12 +14,23 @@ class EditPost extends Component {
     title: '',
     owner: '',
     body: '',
+    category: '',
   };
 
   handleChange = (e, { value }) => {
     this.setState({
       [e.target.name]: value,
     });
+  };
+
+  handleSelect = (name) => {
+    const setValue = (e, { value }) => {
+      this.setState({
+        [name]: value,
+      });
+    };
+
+    return setValue;
   };
 
   submit = (e) => {
@@ -36,7 +48,6 @@ class EditPost extends Component {
           ...this.state,
           id: uuidv4(),
           timestamp: Date.now(),
-          category: 'react',
         }),
       }
     ).then((res) => {
@@ -45,6 +56,8 @@ class EditPost extends Component {
   };
 
   render() {
+    const { categories } = this.props;
+    const setValue = this.handleSelect('category');
     return (
       <Form onSubmit={this.submit}>
         <Form.Group widths="equal">
@@ -68,6 +81,13 @@ class EditPost extends Component {
             value={this.state.body}
             onChange={this.handleChange}
           />
+          <Form.Select
+            name="category"
+            label="Category"
+            options={categories}
+            placeholder=""
+            onChange={setValue}
+          />
         </Form.Group>
 
         <Form.Button>Submit</Form.Button>
@@ -75,5 +95,9 @@ class EditPost extends Component {
     );
   }
 }
+
+EditPost.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+};
 
 export default EditPost
