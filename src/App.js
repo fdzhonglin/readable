@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+
+import IndexPage from './components/IndexPage'
+import NoMatch from './components/NoMatch'
+
+import reducers from './reducers'
+
+const store = createStore(
+  combineReducers({
+    ...reducers,
+  })
+)
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={store}>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <IndexPage />
+            )}
+          />
+
+          <Route component={NoMatch} />
+        </Switch>
+      </Provider>
     );
   }
 }
