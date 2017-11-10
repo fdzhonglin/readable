@@ -9,6 +9,7 @@ import { Button, Welcome } from '@storybook/react/demo';
 import EditPost from '../components/EditPost';
 import Post from '../components/Post';
 import PostList from '../components/PostList';
+import CategoryList from '../components/CategoryList';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -76,3 +77,25 @@ storiesOf('PostList', module)
       />
     )
   );
+
+const categoryList = [
+  {
+    name: 'react',
+    path: 'react',
+  },
+  {
+    name: 'redux',
+    path: 'redux',
+  },
+  {
+    name: 'udacity',
+    path: 'udacity',
+  }
+];
+
+storiesOf('CategoryList', module)
+  .add('default', () => (
+    <CategoryList
+      categories={categoryList}
+    />
+  ))
