@@ -1,2 +1,6 @@
 
-export default {};
+import posts from './posts';
+
+export default {
+  posts,
+};

@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import IndexPage from './components/IndexPage'
+import CategoriesPage from './components/CategoriesPage';
 import NoMatch from './components/NoMatch'
 
-import reducers from './reducers'
+import { fetchPosts } from './actions/post_actions';
 
-const store = createStore(
-  combineReducers({
-    ...reducers,
-  })
-)
+
+
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.fetchData();
+  }
+
   render() {
     return (
-      <Provider store={store}>
+      <BrowserRouter>
         <Switch>
           <Route
             exact
@@ -28,11 +28,27 @@ class App extends Component {
             )}
           />
 
+          <Route
+            exact
+            path="/categories"
+            render={() => (
+              <CategoriesPage />
+            )}
+          />
+
           <Route component={NoMatch} />
         </Switch>
-      </Provider>
+      </BrowserRouter>
     );
   }
 }
 
-export default App;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: () => dispatch(fetchPosts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
